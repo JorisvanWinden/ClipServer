@@ -15,8 +15,6 @@ import java.net.Socket;
  * Created by Joris on 14-4-14.
  */
 public class ClipServer implements ClipboardOwner {
-	private ClipServer() {
-	}
 
 	public static void main(String[] args) {
 		try {
