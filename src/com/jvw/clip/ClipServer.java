@@ -8,6 +8,7 @@ import java.awt.datatransfer.Transferable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -19,6 +20,8 @@ public class ClipServer implements ClipboardOwner {
 	public static void main(String[] args) {
 		try {
 			ServerSocket server = new ServerSocket(60607);
+			System.out.println("Your ip address is: " + InetAddress.getLocalHost().getHostAddress());
+			System.out.println("Your port is: " + server.getLocalPort());
 			while (true) {
 				Socket socket = server.accept();
 				DataInputStream in = new DataInputStream(socket.getInputStream());
