@@ -19,6 +19,7 @@ public class ClipServer implements ClipboardOwner {
 
 	public static void main(String[] args) {
 		try {
+
 			ServerSocket server = new ServerSocket(60607);
 			System.out.println("Your ip address is: " + InetAddress.getLocalHost().getHostAddress());
 			System.out.println("Your port is: " + server.getLocalPort());
@@ -37,6 +38,10 @@ public class ClipServer implements ClipboardOwner {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void start() {
+
 	}
 
 	public void setClipboard(String msg) {
