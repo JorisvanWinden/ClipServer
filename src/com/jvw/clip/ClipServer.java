@@ -23,11 +23,10 @@ public class ClipServer implements ClipboardOwner {
 				Socket socket = server.accept();
 				DataInputStream in = new DataInputStream(socket.getInputStream());
 				DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-				String msg = in.readUTF();
-				new ClipServer().setClipboard(msg);
 				out.writeBoolean(true);
 				out.flush();
-				out.close();
+				String msg = in.readUTF();
+				new ClipServer().setClipboard(msg);
 				in.close();
 			}
 		} catch (IOException e) {
