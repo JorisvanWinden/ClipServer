@@ -28,6 +28,8 @@ public class ClipServer implements ClipboardOwner {
 				String msg = in.readUTF();
 				new ClipServer().setClipboard(msg);
 				in.close();
+				out.close();
+				socket.close();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
