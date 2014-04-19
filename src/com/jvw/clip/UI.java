@@ -1,20 +1,43 @@
 package com.jvw.clip;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Joris on 19-4-14.
  */
-public class UI {
+public class UI implements ActionListener {
 	private JButton start_stop_button;
 	private JTextArea log_text_area;
 	private JPanel contentPane;
+	private ClipServer server;
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("<class name>");
-		frame.setContentPane(new UI().contentPane);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public UI() {
+		this.server = new ClipServer();
+		JFrame frame = new JFrame("Clip");
+		frame.setContentPane(contentPane);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
+		start_stop_button.addActionListener(this);
+	}
+
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new UI();
+			}
+		});
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (server.isRunning()) {
+			server.stop();
+		} else {
+			server.start();
+		}
 	}
 }

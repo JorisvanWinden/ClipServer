@@ -15,12 +15,40 @@ import java.net.Socket;
 /**
  * Created by Joris on 14-4-14.
  */
-public class ClipServer implements ClipboardOwner {
+public class ClipServer implements ClipboardOwner, Runnable {
 
-	public static void main(String[] args) {
+	private ServerSocket server;
+	private boolean running = false;
+
+	public void start() {
+		new Thread(this).start();
+	}
+
+	public void stop() {
 		try {
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-			ServerSocket server = new ServerSocket(60607);
+	public void setClipboard(String msg) {
+		Clipboard clipBoard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		StringSelection toClip = new StringSelection(msg);
+		clipBoard.setContents(toClip, this);
+		System.out.println(msg + " copied to clipboard");
+	}
+
+
+	@Override
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {
+	}
+
+	@Override
+	public void run() {
+		running = true;
+		try {
+			server = new ServerSocket(60607);
 			System.out.println("Your ip address is: " + InetAddress.getLocalHost().getHostAddress());
 			System.out.println("Your port is: " + server.getLocalPort());
 			while (true) {
@@ -37,23 +65,17 @@ public class ClipServer implements ClipboardOwner {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				server.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		running = false;
 	}
 
-	public void start() {
-
-	}
-
-	public void setClipboard(String msg) {
-		Clipboard clipBoard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		StringSelection toClip = new StringSelection(msg);
-		clipBoard.setContents(toClip, this);
-		System.out.println(msg + " copied to clipboard");
-	}
-
-
-	@Override
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {
-
+	public boolean isRunning() {
+		return running;
 	}
 }
