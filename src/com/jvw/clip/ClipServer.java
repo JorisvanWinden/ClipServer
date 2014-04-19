@@ -47,6 +47,7 @@ public class ClipServer implements ClipboardOwner, Runnable {
 	@Override
 	public void run() {
 		running = true;
+		Log.log("Server is up and running.");
 		try {
 			server = new ServerSocket(60607);
 			Log.log("Your ip address is: " + InetAddress.getLocalHost().getHostAddress());
@@ -73,6 +74,7 @@ public class ClipServer implements ClipboardOwner, Runnable {
 			}
 		}
 		running = false;
+		Log.log("Server is turned off or disconnected");
 	}
 
 	public boolean isRunning() {
