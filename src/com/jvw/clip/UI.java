@@ -14,6 +14,7 @@ public class UI implements ActionListener {
 	private ClipServer server;
 
 	public UI() {
+		Log.init(log_text_area);
 		this.server = new ClipServer();
 		JFrame frame = new JFrame("Clip");
 		frame.setContentPane(contentPane);
@@ -36,8 +37,10 @@ public class UI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (server.isRunning()) {
 			server.stop();
+			start_stop_button.setText("Start");
 		} else {
 			server.start();
+			start_stop_button.setText("Stop");
 		}
 	}
 }

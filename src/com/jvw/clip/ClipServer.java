@@ -36,7 +36,7 @@ public class ClipServer implements ClipboardOwner, Runnable {
 		Clipboard clipBoard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		StringSelection toClip = new StringSelection(msg);
 		clipBoard.setContents(toClip, this);
-		System.out.println(msg + " copied to clipboard");
+		Log.log(msg + " copied to clipboard");
 	}
 
 
@@ -49,8 +49,8 @@ public class ClipServer implements ClipboardOwner, Runnable {
 		running = true;
 		try {
 			server = new ServerSocket(60607);
-			System.out.println("Your ip address is: " + InetAddress.getLocalHost().getHostAddress());
-			System.out.println("Your port is: " + server.getLocalPort());
+			Log.log("Your ip address is: " + InetAddress.getLocalHost().getHostAddress());
+			Log.log("Your port is: " + server.getLocalPort());
 			while (true) {
 				Socket socket = server.accept();
 				DataInputStream in = new DataInputStream(socket.getInputStream());
