@@ -11,6 +11,7 @@ public class UI implements ActionListener {
 	private JButton start_stop_button;
 	private JTextArea log_text_area;
 	private JPanel contentPane;
+	private JFormattedTextField port_text_field;
 	private ClipServer server;
 
 	public UI() {
@@ -39,7 +40,7 @@ public class UI implements ActionListener {
 			server.stop();
 			start_stop_button.setText("Start");
 		} else {
-			server.start();
+			server.start(Integer.parseInt(port_text_field.getText()));
 			start_stop_button.setText("Stop");
 		}
 	}

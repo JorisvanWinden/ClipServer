@@ -18,9 +18,11 @@ import java.net.Socket;
 public class ClipServer implements ClipboardOwner, Runnable {
 
 	private ServerSocket server;
+	private int port;
 	private boolean running = false;
 
-	public void start() {
+	public void start(int port) {
+		this.port = port;
 		new Thread(this).start();
 	}
 
@@ -46,10 +48,10 @@ public class ClipServer implements ClipboardOwner, Runnable {
 
 	@Override
 	public void run() {
-		running = true;
-		Log.log("Server is up and running.");
 		try {
-			server = new ServerSocket(60607);
+			server = new ServerSocket(port);
+			running = true;
+			Log.log("Server is up and running.");
 			Log.log("Your ip address is: " + InetAddress.getLocalHost().getHostAddress());
 			Log.log("Your port is: " + server.getLocalPort());
 			while (true) {
@@ -59,7 +61,11 @@ public class ClipServer implements ClipboardOwner, Runnable {
 				out.writeBoolean(true);
 				out.flush();
 				String msg = in.readUTF();
-				new ClipServer().setClipboard(msg);
+				if (!msg.equals("Test")) {
+					new ClipServer().setClipboard(msg);
+				} else {
+					Log.log("Test successful");
+				}
 				in.close();
 				out.close();
 				socket.close();
@@ -71,6 +77,10 @@ public class ClipServer implements ClipboardOwner, Runnable {
 				server.close();
 			} catch (IOException e) {
 				e.printStackTrace();
+
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				Log.log("Port number is already in use");
 			}
 		}
 		running = false;
